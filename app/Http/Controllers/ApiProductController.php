@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductFormRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -14,17 +15,7 @@ class ApiProductController extends Controller
      */
     public function index()
     {
-        // return Product::all();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return Product::all();
     }
 
     /**
@@ -33,9 +24,10 @@ class ApiProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductFormRequest $request)
     {
-        //
+
+       return Product::create($request->all());
     }
 
     /**
@@ -46,18 +38,7 @@ class ApiProductController extends Controller
      */
     public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return Product::where('id', $id)->firstOrFail();
     }
 
     /**
@@ -67,9 +48,9 @@ class ApiProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductFormRequest $request, $id)
     {
-        //
+        return Product::where('id', $id)->update($request->all());
     }
 
     /**
@@ -80,6 +61,6 @@ class ApiProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return Product::destroy($id);
     }
 }

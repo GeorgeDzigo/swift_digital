@@ -14,9 +14,10 @@ class ProductFormRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|max:255|string',
+            'title' => 'required|max:255',
             'description' => 'required',
             'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'currency' => 'required',
         ];
     }
 }

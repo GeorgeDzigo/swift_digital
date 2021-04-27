@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductFormRequest;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -15,7 +16,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('home',[
+            'products' => Product::all(),
+        ]);
     }
 
     /**
@@ -31,23 +34,13 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\ProductFormRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProductFormRequest $request)
     {
-        dd($request);
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        Product::create($request->all());
+        return redirect(route('product.index'));
     }
 
     /**
@@ -58,7 +51,9 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('form', [
+            'product' => Product::where('id', $id)->firstOrfail(),
+        ]);
     }
 
     /**
@@ -68,9 +63,10 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductFormRequest $request, $id)
     {
-        //
+        Product::where('id', $id)->update($request->all());
+        return redirect(route('product.index'));
     }
 
     /**
@@ -81,6 +77,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Product::destroy($id);
+        return redirect(route('product.index'));
     }
 }
